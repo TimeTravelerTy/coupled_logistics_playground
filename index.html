@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coupled Logistic Map — Platonic Space Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1>Coupled Logistic Map</h1>
+        <p class="subtitle">Exploring platonic space — where simple rules generate collective agency</p>
+      </div>
+      <button id="help-btn" class="icon-btn" title="Keyboard shortcuts (?)">?</button>
+    </div>
+  </header>
+
+  <!-- ── Main Grid ──────────────────────────────────────────────────────── -->
+  <main class="app-grid">
+
+    <!-- Left column: canvas + playback + status -->
+    <section class="canvas-col">
+      <div id="canvas-container" class="canvas-container">
+        <canvas id="sim-canvas"></canvas>
+        <canvas id="overlay-canvas"></canvas>
+      </div>
+
+      <!-- Playback bar -->
+      <div class="playback-bar">
+        <button id="btn-pause"  class="icon-btn" title="Pause / Play (Space)">⏸</button>
+        <button id="btn-reset"  class="icon-btn" title="Reset grid (R)">↺</button>
+        <button id="btn-clear"  class="icon-btn" title="Clear freeze / corrupt masks (C)">⌫</button>
+        <span id="hud-t" class="hud-t">t=0</span>
+      </div>
+
+      <p id="status-line" class="status-line">Initialising…</p>
+
+      <!-- Metrics chart -->
+      <div class="metrics-wrap">
+        <canvas id="metrics-canvas" width="320" height="80"></canvas>
+      </div>
+    </section>
+
+    <!-- Right column: tabs with Dynamics / Tools -->
+    <aside class="controls-col">
+
+      <!-- Tab bar -->
+      <div class="tab-bar" role="tablist">
+        <button class="tab-btn active" data-tab="dynamics" role="tab">Dynamics</button>
+        <button class="tab-btn"        data-tab="tools"    role="tab">Tools</button>
+      </div>
+
+      <!-- ── Dynamics Tab ──────────────────────────────────────────────── -->
+      <div id="tab-dynamics" class="tab-panel">
+
+        <!-- Logistic params -->
+        <fieldset class="field-group">
+          <legend>Logistic Map</legend>
+
+          <div class="slider-row">
+            <label for="slider-r">r <span class="param-hint">growth rate</span></label>
+            <input id="slider-r" type="range" min="2.5" max="4.0" step="0.01" value="3.8" data-decimals="2">
+            <span id="slider-r-val" class="val-badge">3.80</span>
+          </div>
+
+          <div class="slider-row">
+            <label for="slider-eps">ε <span class="param-hint">coupling</span></label>
+            <input id="slider-eps" type="range" min="0" max="0.5" step="0.005" value="0.20" data-decimals="3">
+            <span id="slider-eps-val" class="val-badge">0.200</span>
+          </div>
+        </fieldset>
+
+        <!-- Neighbourhood -->
+        <fieldset class="field-group">
+          <legend>Neighbourhood</legend>
+
+          <div class="select-row">
+            <label for="sel-topology">Topology</label>
+            <select id="sel-topology">
+              <option value="moore"      selected>Moore (8)</option>
+              <option value="vonneumann">Von Neumann (4)</option>
+              <option value="extended">Extended (radius)</option>
+            </select>
+          </div>
+
+          <div id="radius-row" class="slider-row" style="display:none">
+            <label for="slider-radius">Radius</label>
+            <input id="slider-radius" type="range" min="1" max="4" step="1" value="1" data-decimals="0">
+            <span id="slider-radius-val" class="val-badge">1</span>
+          </div>
+        </fieldset>
+
+        <!-- Dynamics options -->
+        <fieldset class="field-group">
+          <legend>Dynamics Options</legend>
+
+          <div class="select-row">
+            <label for="sel-boundary">Boundary</label>
+            <select id="sel-boundary">
+              <option value="periodic"  selected>Periodic (wrap)</option>
+              <option value="fixed">Fixed (zero)</option>
+              <option value="reflecting">Reflecting</option>
+            </select>
+          </div>
+
+          <div class="select-row">
+            <label for="sel-aggregate">Coupling fn</label>
+            <select id="sel-aggregate">
+              <option value="mean"   selected>Mean</option>
+              <option value="median">Median</option>
+              <option value="max">Max</option>
+              <option value="min">Min</option>
+            </select>
+          </div>
+
+          <div class="select-row">
+            <label for="sel-update">Update order</label>
+            <select id="sel-update">
+              <option value="sync"  selected>Synchronous</option>
+              <option value="async">Asynchronous</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <!-- Init conditions + speed -->
+        <fieldset class="field-group">
+          <legend>Simulation</legend>
+
+          <div class="select-row">
+            <label for="sel-init">Init state</label>
+            <select id="sel-init">
+              <option value="random"      selected>Random</option>
+              <option value="gradient">Gradient</option>
+              <option value="striped">Striped</option>
+              <option value="checkerboard">Checkerboard</option>
+              <option value="spike">Spike</option>
+            </select>
+          </div>
+
+          <div class="slider-row">
+            <label for="slider-speed">Speed <span class="param-hint">steps/frame</span></label>
+            <input id="slider-speed" type="range" min="1" max="20" step="1" value="2" data-decimals="0">
+            <span id="slider-speed-val" class="val-badge">2</span>
+          </div>
+        </fieldset>
+
+        <!-- Corruption -->
+        <fieldset class="field-group">
+          <legend>Corruption (when active)</legend>
+
+          <div class="slider-row">
+            <label for="slider-sigma">σ <span class="param-hint">noise mag</span></label>
+            <input id="slider-sigma" type="range" min="0" max="0.3" step="0.005" value="0.03" data-decimals="3">
+            <span id="slider-sigma-val" class="val-badge">0.030</span>
+          </div>
+
+          <div class="slider-row">
+            <label for="slider-prob">p <span class="param-hint">apply prob</span></label>
+            <input id="slider-prob" type="range" min="0" max="1" step="0.05" value="0.25" data-decimals="2">
+            <span id="slider-prob-val" class="val-badge">0.25</span>
+          </div>
+        </fieldset>
+
+      </div><!-- /tab-dynamics -->
+
+      <!-- ── Tools Tab ────────────────────────────────────────────────── -->
+      <div id="tab-tools" class="tab-panel hidden">
+
+        <!-- Damage tools -->
+        <fieldset class="field-group">
+          <legend>Paint Tool</legend>
+          <div class="tool-grid">
+            <button class="tool-btn active" data-tool="lesion_random" title="1">Lesion rand</button>
+            <button class="tool-btn"        data-tool="lesion_zero"   title="2">Lesion 0</button>
+            <button class="tool-btn"        data-tool="lesion_one"    title="3">Lesion 1</button>
+            <button class="tool-btn"        data-tool="freeze"        title="4">Freeze</button>
+            <button class="tool-btn"        data-tool="unfreeze"      title="5">Unfreeze</button>
+            <button class="tool-btn"        data-tool="corrupt"       title="6">Corrupt</button>
+            <button class="tool-btn"        data-tool="uncorrupt"     title="7">Uncorrupt</button>
+          </div>
+        </fieldset>
+
+        <!-- Brush -->
+        <fieldset class="field-group">
+          <legend>Brush</legend>
+
+          <div class="shape-row">
+            <button class="shape-btn active" data-shape="circle"   title="S to cycle">●</button>
+            <button class="shape-btn"        data-shape="square">■</button>
+            <button class="shape-btn"        data-shape="triangle">▲</button>
+            <canvas id="brush-preview" width="48" height="48" class="brush-preview"></canvas>
+          </div>
+
+          <div class="slider-row">
+            <label for="slider-brush">Size</label>
+            <input id="slider-brush" type="range" min="1" max="80" step="1" value="12">
+            <span id="slider-brush-val" class="val-badge">12</span>
+          </div>
+        </fieldset>
+
+        <!-- Colormap -->
+        <fieldset class="field-group">
+          <legend>Colour Map</legend>
+          <div class="select-row">
+            <label for="sel-colormap">Scheme</label>
+            <select id="sel-colormap">
+              <option value="inferno"  selected>Inferno</option>
+              <option value="viridis">Viridis</option>
+              <option value="magma">Magma</option>
+              <option value="plasma">Plasma</option>
+              <option value="turbo">Turbo</option>
+              <option value="grayscale">Greyscale</option>
+              <option value="custom">Custom…</option>
+            </select>
+          </div>
+          <div id="custom-colors" class="custom-colors" style="display:none">
+            <label>Low <input id="color-a" type="color" value="#0a0010"></label>
+            <label>High <input id="color-b" type="color" value="#f07040"></label>
+          </div>
+        </fieldset>
+
+        <!-- Presets -->
+        <fieldset class="field-group">
+          <legend>Quick Presets</legend>
+          <div id="preset-buttons" class="preset-buttons"></div>
+        </fieldset>
+
+      </div><!-- /tab-tools -->
+
+    </aside>
+  </main>
+
+  <!-- ── Guided Tour ────────────────────────────────────────────────────── -->
+  <details id="details-tour" class="collapsible-panel">
+    <summary>
+      <span class="panel-title">Guided Tour</span>
+      <span class="panel-hint">Step through the mathematics of emergence</span>
+    </summary>
+    <div class="tour-body">
+      <div id="chapter-nav" class="chapter-nav"></div>
+      <div class="tour-content">
+        <div id="chapter-narrative" class="chapter-narrative">
+          <p class="placeholder">Select a chapter above to begin.</p>
+        </div>
+        <div class="tour-footer">
+          <button id="btn-ch-prev" class="nav-btn" disabled>◀ Prev</button>
+          <button id="btn-ch-next" class="nav-btn">Next ▶</button>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ── Bifurcation Diagram ────────────────────────────────────────────── -->
+  <details id="details-bifurcation" class="collapsible-panel">
+    <summary>
+      <span class="panel-title">Bifurcation Diagram</span>
+      <span class="panel-hint">Click the diagram to set r</span>
+    </summary>
+    <div class="bif-body">
+      <canvas id="bifurcation-canvas" width="700" height="180"></canvas>
+      <p class="bif-caption">The period-doubling cascade toward chaos. Each vertical slice shows
+        the long-run attractor values at that growth rate.
+        Lavender = periodic, orange = chaotic.</p>
+    </div>
+  </details>
+
+  <!-- ── Help Overlay ──────────────────────────────────────────────────── -->
+  <div id="help-overlay" class="help-overlay hidden" role="dialog" aria-label="Keyboard shortcuts">
+    <div class="help-box">
+      <button class="help-close" id="help-close">✕</button>
+      <h2>Keyboard Shortcuts</h2>
+      <table class="shortcut-table">
+        <tr><td>Space</td><td>Pause / play</td></tr>
+        <tr><td>R</td><td>Reset grid</td></tr>
+        <tr><td>C</td><td>Clear damage masks</td></tr>
+        <tr><td>1–7</td><td>Select paint tool</td></tr>
+        <tr><td>S</td><td>Cycle brush shape</td></tr>
+        <tr><td>[ / ]</td><td>Brush size smaller / larger</td></tr>
+        <tr><td>+  / −</td><td>Speed up / slow down</td></tr>
+        <tr><td>T / G</td><td>r  ±0.02</td></tr>
+        <tr><td>E / D</td><td>ε  ±0.01</td></tr>
+        <tr><td>M / N</td><td>Corrupt σ  ±0.005</td></tr>
+        <tr><td>O / P</td><td>Corrupt prob  ±0.05</td></tr>
+        <tr><td>?</td><td>Toggle this panel</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Footer ────────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <p>Inspired by
+      <a href="https://www.drmichaellevin.org/" target="_blank" rel="noopener">Michael Levin's work</a>
+      on bioelectricity and morphogenetic fields.
+    </p>
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    // Help overlay toggle (non-module, so it works before main.js loads)
+    document.getElementById('help-btn').addEventListener('click', () => {
+      document.getElementById('help-overlay').classList.toggle('hidden');
+    });
+    document.getElementById('help-close').addEventListener('click', () => {
+      document.getElementById('help-overlay').classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
