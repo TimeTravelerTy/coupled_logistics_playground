@@ -73,12 +73,6 @@ function drawMetrics() {
   metricsCtx.lineWidth = 1;
   metricsCtx.beginPath(); metricsCtx.moveTo(0, half); metricsCtx.lineTo(W, half); metricsCtx.stroke();
 
-  // Labels
-  metricsCtx.fillStyle = '#555566';
-  metricsCtx.font = '9px Inter, monospace';
-  metricsCtx.fillText('sync', 3, 10);
-  metricsCtx.fillText('Δnb', 3, half + 10);
-
   const count = Math.min(metricHead, METRICS_BUF);
   if (count < 2) return;
 
@@ -289,3 +283,32 @@ buildPresetButtons();
 buildChapterNav();
 requestNextFrame();
 loop();
+
+// ─── Live Dot (pause toggle) ──────────────────────────────────────────────────
+const liveDot = document.getElementById('live-dot');
+document.getElementById('btn-pause')?.addEventListener('click', () => {
+  liveDot?.classList.toggle('paused');
+});
+
+// ─── Sidebar Collapse Toggles ─────────────────────────────────────────────────
+(function setupSidebarToggles() {
+  const appGrid = document.querySelector('.app-grid');
+
+  document.getElementById('toggle-tour')?.addEventListener('click', () => {
+    const col = document.querySelector('.tour-col');
+    const btn = document.getElementById('toggle-tour');
+    const collapsed = col.classList.toggle('collapsed');
+    appGrid.classList.toggle('tour-collapsed', collapsed);
+    btn.textContent = collapsed ? '›' : '‹';
+    btn.title = collapsed ? 'Expand tour' : 'Collapse tour';
+  });
+
+  document.getElementById('toggle-controls')?.addEventListener('click', () => {
+    const col = document.querySelector('.controls-col');
+    const btn = document.getElementById('toggle-controls');
+    const collapsed = col.classList.toggle('collapsed');
+    appGrid.classList.toggle('controls-collapsed', collapsed);
+    btn.textContent = collapsed ? '‹' : '›';
+    btn.title = collapsed ? 'Expand controls' : 'Collapse controls';
+  });
+})();

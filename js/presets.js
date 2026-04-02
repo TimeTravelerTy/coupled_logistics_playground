@@ -132,10 +132,10 @@ export const CHAPTERS = [
       or whether it is permanently disrupted.</p>
       <p>Try lesioning again. Try a smaller or larger brush. Does the system recover
       faster from smaller damage? Is there a threshold beyond which it cannot?</p>
-      <p class="aside">Planarians regenerate their entire head from a tail fragment.
-      Embryos cut in half can still produce whole organisms. Levin's insight is that
-      this robustness is not a special biological trick — it falls out of the geometry
-      of the underlying state space. A basin of attraction is hard to leave permanently.</p>
+      <p class="aside">The coupled system lives in a high-dimensional state space with
+      strong attractors. Small perturbations are absorbed; large ones may push the system
+      into a different basin entirely. The geometry of that space — not the damage itself —
+      determines whether recovery is possible.</p>
     `,
   },
   {
@@ -149,10 +149,11 @@ export const CHAPTERS = [
       current values, refusing to update. They persist as a kind of memory, while the
       rest of the system adapts around them.</p>
       <p>Watch how the dynamics route around the obstacle. The frozen region shapes the
-      flow like a scar in tissue, or a long-held habit in a mind.</p>
-      <p class="aside">"What does it mean for a system to have a past?" Levin argues that
-      biological memory is not stored in neurons alone but in the persistent states of
-      cells, tissues, and their coupling topology — exactly what you see here.</p>
+      flow like a scar in tissue, or a persistent boundary condition in a physical system.</p>
+      <p class="aside">Fixing part of a coupled system's state is equivalent to imposing
+      a boundary condition mid-field. The unfrozen cells must satisfy both the local
+      update rule and the constraint imposed by their frozen neighbours — a competition
+      that reshapes every downstream pattern.</p>
     `,
   },
 ];

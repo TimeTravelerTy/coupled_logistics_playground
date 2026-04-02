@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coupled Logistic Map — Platonic Space Explorer</title>
+  <title>Coupled Logistic Map</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <div class="header-inner">
       <div>
         <h1>Coupled Logistic Map</h1>
-        <p class="subtitle">Exploring platonic space — where simple rules generate collective agency</p>
+        <p class="subtitle">Where simple local rules give rise to collective order</p>
       </div>
       <button id="help-btn" class="icon-btn" title="Keyboard shortcuts (?)">?</button>
     </div>
@@ -25,7 +25,30 @@
   <!-- ── Main Grid ──────────────────────────────────────────────────────── -->
   <main class="app-grid">
 
-    <!-- Left column: canvas + playback + status -->
+    <!-- Left column: guided tour -->
+    <aside class="tour-col">
+      <div class="tour-col-header">
+        <div class="tour-col-labels">
+          <span class="tour-col-title">Guided Tour</span>
+          <span class="tour-col-hint">Step through emergence</span>
+        </div>
+        <button id="toggle-tour" class="sidebar-toggle" title="Collapse tour">‹</button>
+      </div>
+      <div class="tour-scroll">
+        <div id="chapter-nav" class="chapter-nav"></div>
+        <div class="tour-narrative-wrap">
+          <div id="chapter-narrative" class="chapter-narrative">
+            <p class="placeholder">Select a chapter above to begin.</p>
+          </div>
+        </div>
+      </div>
+      <div class="tour-footer">
+        <button id="btn-ch-prev" class="nav-btn" disabled>◀ Prev</button>
+        <button id="btn-ch-next" class="nav-btn">Next ▶</button>
+      </div>
+    </aside>
+
+    <!-- Center column: canvas + playback + metrics -->
     <section class="canvas-col">
       <div id="canvas-container" class="canvas-container">
         <canvas id="sim-canvas"></canvas>
@@ -37,6 +60,7 @@
         <button id="btn-pause"  class="icon-btn" title="Pause / Play (Space)">⏸</button>
         <button id="btn-reset"  class="icon-btn" title="Reset grid (R)">↺</button>
         <button id="btn-clear"  class="icon-btn" title="Clear freeze / corrupt masks (C)">⌫</button>
+        <span id="live-dot" class="live-dot"></span>
         <span id="hud-t" class="hud-t">t=0</span>
       </div>
 
@@ -44,6 +68,10 @@
 
       <!-- Metrics chart -->
       <div class="metrics-wrap">
+        <div class="metrics-labels">
+          <span class="ml-sync">Synchrony</span>
+          <span class="ml-disagree">Neighbour Δ</span>
+        </div>
         <canvas id="metrics-canvas" width="320" height="80"></canvas>
       </div>
     </section>
@@ -53,6 +81,7 @@
 
       <!-- Tab bar -->
       <div class="tab-bar" role="tablist">
+        <button id="toggle-controls" class="sidebar-toggle sidebar-toggle-right" title="Collapse controls">›</button>
         <button class="tab-btn active" data-tab="dynamics" role="tab">Dynamics</button>
         <button class="tab-btn"        data-tab="tools"    role="tab">Tools</button>
       </div>
@@ -237,26 +266,6 @@
     </aside>
   </main>
 
-  <!-- ── Guided Tour ────────────────────────────────────────────────────── -->
-  <details id="details-tour" class="collapsible-panel">
-    <summary>
-      <span class="panel-title">Guided Tour</span>
-      <span class="panel-hint">Step through the mathematics of emergence</span>
-    </summary>
-    <div class="tour-body">
-      <div id="chapter-nav" class="chapter-nav"></div>
-      <div class="tour-content">
-        <div id="chapter-narrative" class="chapter-narrative">
-          <p class="placeholder">Select a chapter above to begin.</p>
-        </div>
-        <div class="tour-footer">
-          <button id="btn-ch-prev" class="nav-btn" disabled>◀ Prev</button>
-          <button id="btn-ch-next" class="nav-btn">Next ▶</button>
-        </div>
-      </div>
-    </div>
-  </details>
-
   <!-- ── Bifurcation Diagram ────────────────────────────────────────────── -->
   <details id="details-bifurcation" class="collapsible-panel">
     <summary>
@@ -295,10 +304,7 @@
 
   <!-- ── Footer ────────────────────────────────────────────────────────── -->
   <footer class="site-footer">
-    <p>Inspired by
-      <a href="https://www.drmichaellevin.org/" target="_blank" rel="noopener">Michael Levin's work</a>
-      on bioelectricity and morphogenetic fields.
-    </p>
+    <p>Partly inspired by <a href="https://thoughtforms.life/platonic-space-where-cognitive-and-morphological-patterns-come-from-besides-genetics-and-environment/" target="_blank" rel="noopener">Michael Levin's idea of platonic space</a> — looking for agency in simple systems.</p>
   </footer>
 
   <script type="module" src="./js/main.js"></script>
