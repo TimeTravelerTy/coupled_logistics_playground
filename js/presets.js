@@ -105,6 +105,26 @@ export const CHAPTERS = [
   },
   {
     id: 4,
+    title: 'Spatial Domains',
+    params: { r: 3.8, eps: 0.08, topology: 'moore', boundary: 'periodic',
+              aggregate: 'mean', updateOrder: 'sync', reset: true, initMode: 'random' },
+    autoTool: null,
+    narrative: `
+      <p>Nudge coupling up slightly — <em>ε = 0.08</em> — and something unexpected
+      crystallises: the noise <strong>organises itself into a maze</strong>.
+      Winding corridors of agreement trace through a turbulent background.</p>
+      <p>Each cell is still chaotic on its own. But now it weakly feels its neighbours,
+      creating short-range spatial correlation. Nearby cells tend to fall into similar
+      phases; far-apart cells remain independent. The corridor walls are sharp because
+      chaos amplifies any difference not averaged out by the coupling.</p>
+      <p class="aside">This is the <em>frozen domains</em> phase of coupled map lattices,
+      studied by physicist Kunihiko Kaneko in the late 1980s. The maze is meta-stable —
+      it persists for thousands of steps, yet no single cell is repeating or predictable.
+      Pattern without periodicity. Structure without synchrony.</p>
+    `,
+  },
+  {
+    id: 5,
     title: 'Emergent Synchrony',
     params: { r: 3.8, eps: 0.30, topology: 'moore', boundary: 'periodic',
               aggregate: 'mean', updateOrder: 'sync', reset: true, initMode: 'random' },
@@ -121,7 +141,27 @@ export const CHAPTERS = [
     `,
   },
   {
-    id: 5,
+    id: 6,
+    title: 'Cognitive Light Cone',
+    params: { r: 3.8, eps: 0.15, topology: 'extended', radius: 2, boundary: 'periodic',
+              aggregate: 'mean', updateOrder: 'sync', reset: true, initMode: 'random' },
+    autoTool: null,
+    narrative: `
+      <p>Switch to <em>Extended</em> topology and drag the <strong>Radius</strong> slider
+      — it's now visible in the Dynamics panel. You're expanding each cell's reach:
+      how many neighbours it can see, measure, and be pulled by.</p>
+      <p>At radius 1 (8 neighbours), tight spirals and winding domains form.
+      At radius 3 or 4 (48+ neighbours), the patterns grow coarser and more sweeping.
+      Same ε, same r, same chaos — but a completely different collective computation.</p>
+      <p class="aside">Michael Levin calls this the <em>cognitive light cone</em>: the
+      spatio-temporal boundary of what an agent can sense and influence. Cells with a wider
+      cone don't just process more signal — they participate in fundamentally different
+      collective outcomes. The scale of cognition isn't incidental; it <em>is</em> the
+      cognition.</p>
+    `,
+  },
+  {
+    id: 7,
     title: 'Damage and Recovery',
     params: { r: 3.8, eps: 0.20, topology: 'moore', boundary: 'periodic',
               aggregate: 'mean', updateOrder: 'sync', reset: true, initMode: 'random' },
@@ -139,7 +179,7 @@ export const CHAPTERS = [
     `,
   },
   {
-    id: 6,
+    id: 8,
     title: 'Frozen Memory',
     params: { r: 3.8, eps: 0.20, topology: 'moore', boundary: 'periodic',
               aggregate: 'mean', updateOrder: 'sync', reset: true, initMode: 'random' },
