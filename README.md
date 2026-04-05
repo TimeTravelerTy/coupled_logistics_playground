@@ -16,9 +16,11 @@ Each cell on the grid follows the **logistic map** — one of the simplest equat
 
 $$x_{t+1} = r \cdot x_t \cdot (1 - x_t)$$
 
-Cells are then **coupled** to their neighbors: each step blends its own next value with the average of its neighbors' next values, weighted by coupling strength ε:
+Cells are then **coupled** to their neighbors: each step blends its own next value with an aggregate of its neighbors' next values, weighted by coupling strength ε:
 
-$$x_{t+1} = (1 - \varepsilon)\, f(x_t) \;+\; \varepsilon \cdot \text{mean}\bigl(f(x_{\text{neighbors}})\bigr)$$
+$$x_{t+1} = (1 - \varepsilon)\, f(x_t) \;+\; \varepsilon \cdot \mathcal{A}\bigl(f(x_{\text{neighbors}})\bigr)$$
+
+where $\mathcal{A}$ is the chosen neighborhood aggregation rule, such as mean, median, max, or min.
 
 Individually, each cell is chaotic. Collectively, they form **spatial domains, synchrony, target waves, and frozen memory**. That is structure that no single cell planned or knows about.
 
@@ -31,7 +33,7 @@ This is the question the simulation is built to make visceral: *where does order
 
 | Labyrinthine domains | Target waves |
 |:---:|:---:|
-| <img width="414" height="412" alt="Screenshot 2026-04-05 at 11 57 40" src="https://github.com/user-attachments/assets/ea533b5a-8e1f-48e7-a93b-bdbc2efb6347" /> | <img width="568" height="563" alt="Screenshot 2026-04-01 at 19 08 26" src="https://github.com/user-attachments/assets/774a59f4-18fa-4bda-ad78-f1fa1b378a8a" /> |
+| <img width="411" height="414" alt="Screenshot 2026-04-05 at 15 13 02" src="https://github.com/user-attachments/assets/7e77a131-c8b1-46b6-9071-9ecbf80a47e3" /> | <img width="568" height="563" alt="Screenshot 2026-04-01 at 19 08 26" src="https://github.com/user-attachments/assets/774a59f4-18fa-4bda-ad78-f1fa1b378a8a" /> |
 
 Both emerge from the same rule. Only `r` and `ε` differ.
 
@@ -45,10 +47,10 @@ Ten chapters walk you from the simplest behavior to the strange:
 |---|---------|-------------|
 | 1 | **The Fixed Point** | All cells converge to the same value |
 | 2 | **Period Doubling** | The system oscillates between two values, forever |
-| 3 | **Coupled Chaos** | Individual chaos, collective coherence |
+| 3 | **Coupled Chaos** | Disorder and chaos |
 | 4 | **Spatial Domains** | Regions lock into phase, borders emerge |
 | 5 | **Target Waves** | Expanding rings of synchrony, self-organized |
-| 6 | **Emergent Synchrony** | The whole grid breathes as one |
+| 6 | **Emergent Synchrony** | Order in spite of chaos |
 | 7 | **Cognitive Light Cone** | How far does influence reach? |
 | 8 | **Damage and Recovery** | Lesion the grid and watch it heal |
 | 9 | **Asynchronous Update** | Break the global clock, order persists |
