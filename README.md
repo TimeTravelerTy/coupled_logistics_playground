@@ -6,7 +6,7 @@ A browser-based interactive simulation of a [coupled logistic map](https://en.wi
 
 [**→ Live demo**](https://logisticplatonic.space)
 
-![Dashboard screenshot](assets/screenshot-dashboard.png)
+<img width="1422" height="719" alt="Screenshot 2026-04-05 at 14 56 37" src="https://github.com/user-attachments/assets/7d6dd91a-10e5-4a1f-953a-aa0193660f32" />
 
 ---
 
@@ -31,7 +31,9 @@ This is the question the simulation is built to make visceral: *where does order
 
 | Labyrinthine domains | Target waves |
 |:---:|:---:|
-| ![Labyrinth pattern](assets/screenshot-labyrinth.png) | ![Target waves pattern](assets/screenshot-target-waves.png) |
+| <img width="414" height="412" alt="Screenshot 2026-04-05 at 11 57 40" src="https://github.com/user-attachments/assets/ea533b5a-8e1f-48e7-a93b-bdbc2efb6347" />
+ | <img width="568" height="563" alt="Screenshot 2026-04-01 at 19 08 26" src="https://github.com/user-attachments/assets/774a59f4-18fa-4bda-ad78-f1fa1b378a8a" />
+ |
 
 Both emerge from the same rule. Only `r` and `ε` differ.
 
