@@ -126,7 +126,7 @@ export class BifurcationDiagram {
     this.canvas.addEventListener('click', (e) => {
       const rect = this.canvas.getBoundingClientRect();
       const px = e.clientX - rect.left;
-      const r = this.R_MIN + (px / this.canvas.width) * (this.R_MAX - this.R_MIN);
+      const r = this.R_MIN + (px / rect.width) * (this.R_MAX - this.R_MIN);
       const clamped = Math.max(this.R_MIN, Math.min(this.R_MAX, r));
       this.currentR = clamped;
       if (this.ready) this._drawMarker();

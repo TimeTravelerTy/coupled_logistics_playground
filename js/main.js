@@ -76,27 +76,65 @@ function drawMetrics() {
   const count = Math.min(metricHead, METRICS_BUF);
   if (count < 2) return;
 
-  // Synchrony (top half, green)
+  // Synchrony — zoomed to [0.75, 1.0] so variation is visible
+  const syncFloor = 0.75;
+  const syncRange = 1 - syncFloor;
+  function syncY(v) {
+    const norm = Math.max(0, Math.min(1, (v - syncFloor) / syncRange));
+    return half - norm * (half - 4) - 2;
+  }
+
+  // fill
+  metricsCtx.fillStyle = 'rgba(78,203,110,0.18)';
+  metricsCtx.beginPath();
+  metricsCtx.moveTo(0, half - 2);
+  for (let k = 0; k < count; k++) {
+    const i = (metricHead - count + k) % METRICS_BUF;
+    const x = (k / (METRICS_BUF - 1)) * W;
+    metricsCtx.lineTo(x, syncY(syncBuf[i]));
+  }
+  metricsCtx.lineTo(W, half - 2);
+  metricsCtx.closePath();
+  metricsCtx.fill();
+
+  // line
   metricsCtx.strokeStyle = '#4ecb6e';
-  metricsCtx.lineWidth = 1.5;
+  metricsCtx.lineWidth = 2;
   metricsCtx.beginPath();
   for (let k = 0; k < count; k++) {
     const i = (metricHead - count + k) % METRICS_BUF;
     const x = (k / (METRICS_BUF - 1)) * W;
-    const y = half - syncBuf[i] * (half - 4) - 2;
-    k === 0 ? metricsCtx.moveTo(x, y) : metricsCtx.lineTo(x, y);
+    k === 0 ? metricsCtx.moveTo(x, syncY(syncBuf[i])) : metricsCtx.lineTo(x, syncY(syncBuf[i]));
   }
   metricsCtx.stroke();
 
   // Disagreement (bottom half, orange — scale 0–0.25)
+  // High disagreement → line rises toward the divider (mirrors synchrony convention)
+  function disagY(v) {
+    return H - 2 - Math.max(0, Math.min(0.25, v)) * (half - 4) / 0.25;
+  }
+
+  // fill (from line down to canvas bottom)
+  metricsCtx.fillStyle = 'rgba(240,112,64,0.15)';
+  metricsCtx.beginPath();
+  metricsCtx.moveTo(0, H - 2);
+  for (let k = 0; k < count; k++) {
+    const i = (metricHead - count + k) % METRICS_BUF;
+    const x = (k / (METRICS_BUF - 1)) * W;
+    metricsCtx.lineTo(x, disagY(disagBuf[i]));
+  }
+  metricsCtx.lineTo(W, H - 2);
+  metricsCtx.closePath();
+  metricsCtx.fill();
+
+  // line
   metricsCtx.strokeStyle = '#f07040';
-  metricsCtx.lineWidth = 1.5;
+  metricsCtx.lineWidth = 2;
   metricsCtx.beginPath();
   for (let k = 0; k < count; k++) {
     const i = (metricHead - count + k) % METRICS_BUF;
     const x = (k / (METRICS_BUF - 1)) * W;
-    const y = half + 2 + disagBuf[i] * (half - 4) / 0.25;
-    k === 0 ? metricsCtx.moveTo(x, y) : metricsCtx.lineTo(x, y);
+    k === 0 ? metricsCtx.moveTo(x, disagY(disagBuf[i])) : metricsCtx.lineTo(x, disagY(disagBuf[i]));
   }
   metricsCtx.stroke();
 }
@@ -165,6 +203,28 @@ function buildPresetButtons() {
 // ─── Guided Tour ─────────────────────────────────────────────────────────────
 
 let activeChapter = -1;
+let pendingSequence = [];
+
+function cancelPendingSequence() {
+  pendingSequence.forEach(id => clearTimeout(id));
+  pendingSequence = [];
+}
+
+function scheduleParamUpdate(key, value, delay) {
+  const id = setTimeout(() => {
+    worker.postMessage({ type: 'setParam', key, value });
+    const sl = document.getElementById(`slider-${key}`);
+    if (sl) sl.value = value;
+    const lbl = document.getElementById(`slider-${key}-val`);
+    if (lbl) {
+      const dec = parseInt(sl?.dataset.decimals ?? '2', 10);
+      lbl.textContent = value.toFixed(dec);
+    }
+    controls.params[key] = value;
+    if (key === 'r') bifurcation.setR(value);
+  }, delay);
+  pendingSequence.push(id);
+}
 
 function buildChapterNav() {
   const nav = document.getElementById('chapter-nav');
@@ -198,12 +258,28 @@ function activateChapter(idx) {
     btn.classList.toggle('active', i === idx);
   });
 
+  // Cancel any in-flight sequence from a previous chapter
+  cancelPendingSequence();
+
   // Send preset to worker
   worker.postMessage({ type: 'setPreset', params: ch.params });
 
-  // Apply autoTool after a brief delay (let the reset settle)
+  // Single autoTool (existing chapters)
   if (ch.autoTool) {
-    setTimeout(() => controls.applyAutoTool(ch.autoTool), 200);
+    const id = setTimeout(() => controls.applyAutoTool(ch.autoTool), 200);
+    pendingSequence.push(id);
+  }
+
+  // Multi-step autoSequence (e.g. target waves)
+  if (ch.autoSequence) {
+    for (const step of ch.autoSequence) {
+      if (step.type === 'tool') {
+        const id = setTimeout(() => controls.applyAutoTool(step.tool), step.delay);
+        pendingSequence.push(id);
+      } else if (step.type === 'param') {
+        scheduleParamUpdate(step.key, step.value, step.delay);
+      }
+    }
   }
 
   // Update narrative with fade

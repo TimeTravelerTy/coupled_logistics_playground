@@ -140,6 +140,11 @@ export class Controls {
         toolBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         this.tool = btn.dataset.tool;
+        // Scroll corruption fieldset into view when corrupt tool selected
+        if (btn.dataset.tool === 'corrupt') {
+          document.querySelector('#tab-tools .field-group:has(#slider-sigma)')
+            ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       });
     });
 

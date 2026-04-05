@@ -19,8 +19,8 @@
   <header class="site-header">
     <div class="header-inner">
       <div>
-        <h1>Coupled Logistic Map</h1>
-        <p class="subtitle">Where simple local rules give rise to collective order</p>
+        <h1>Where Order Comes From</h1>
+        <p class="subtitle">25,600 chaotic agents, one rule</p>
       </div>
       <button id="help-btn" class="icon-btn" title="Keyboard shortcuts (?)">?</button>
     </div>
@@ -136,7 +136,7 @@
 
           <div class="select-row">
             <label for="sel-boundary">Boundary</label>
-            <select id="sel-boundary">
+            <select id="sel-boundary" title="Periodic: edges wrap around. Fixed: border cells are clamped to 0. Reflecting: border cells mirror their inner neighbour.">
               <option value="periodic"  selected>Periodic (wrap)</option>
               <option value="fixed">Fixed (zero)</option>
               <option value="reflecting">Reflecting</option>
@@ -145,7 +145,7 @@
 
           <div class="select-row">
             <label for="sel-aggregate">Coupling fn</label>
-            <select id="sel-aggregate">
+            <select id="sel-aggregate" title="How neighbours are aggregated before blending. Mean is the standard; median is more robust to outliers; max/min pull cells toward the extreme neighbour.">
               <option value="mean"   selected>Mean</option>
               <option value="median">Median</option>
               <option value="max">Max</option>
@@ -155,7 +155,7 @@
 
           <div class="select-row">
             <label for="sel-update">Update order</label>
-            <select id="sel-update">
+            <select id="sel-update" title="Synchronous: all cells update simultaneously from a shared snapshot. Asynchronous: cells update one at a time in random order — earlier updates influence later ones within the same step.">
               <option value="sync"  selected>Synchronous</option>
               <option value="async">Asynchronous</option>
             </select>
@@ -178,26 +178,9 @@
           </div>
 
           <div class="slider-row">
-            <label for="slider-speed">Speed <span class="param-hint">steps/frame</span></label>
+            <label for="slider-speed">Speed</label>
             <input id="slider-speed" type="range" min="1" max="20" step="1" value="2" data-decimals="0">
             <span id="slider-speed-val" class="val-badge">2</span>
-          </div>
-        </fieldset>
-
-        <!-- Corruption -->
-        <fieldset class="field-group">
-          <legend>Corruption (when active)</legend>
-
-          <div class="slider-row">
-            <label for="slider-sigma">σ <span class="param-hint">noise mag</span></label>
-            <input id="slider-sigma" type="range" min="0" max="0.3" step="0.005" value="0.03" data-decimals="3">
-            <span id="slider-sigma-val" class="val-badge">0.030</span>
-          </div>
-
-          <div class="slider-row">
-            <label for="slider-prob">p <span class="param-hint">apply prob</span></label>
-            <input id="slider-prob" type="range" min="0" max="1" step="0.05" value="0.25" data-decimals="2">
-            <span id="slider-prob-val" class="val-badge">0.25</span>
           </div>
         </fieldset>
 
@@ -235,6 +218,24 @@
             <label for="slider-brush">Size</label>
             <input id="slider-brush" type="range" min="1" max="80" step="1" value="12">
             <span id="slider-brush-val" class="val-badge">12</span>
+          </div>
+        </fieldset>
+
+        <!-- Corruption settings -->
+        <fieldset class="field-group">
+          <legend>Corruption</legend>
+          <p class="field-desc">Paint with the Corrupt tool. Each step, corrupted cells receive a random noise kick — σ sets magnitude, p sets per-step probability.</p>
+
+          <div class="slider-row">
+            <label for="slider-sigma">σ <span class="param-hint">noise mag</span></label>
+            <input id="slider-sigma" type="range" min="0" max="0.3" step="0.005" value="0.03" data-decimals="3">
+            <span id="slider-sigma-val" class="val-badge">0.030</span>
+          </div>
+
+          <div class="slider-row">
+            <label for="slider-prob">p <span class="param-hint">apply prob</span></label>
+            <input id="slider-prob" type="range" min="0" max="1" step="0.05" value="0.25" data-decimals="2">
+            <span id="slider-prob-val" class="val-badge">0.25</span>
           </div>
         </fieldset>
 
@@ -303,7 +304,7 @@
           Just by being coupled together.</p>
 
           <p>Levin frames this using the idea of <a href="https://thoughtforms.life/platonic-space-where-cognitive-and-morphological-patterns-come-from-besides-genetics-and-environment/"
-          target="_blank" rel="noopener">platonic space</a> — a structured space of
+          target="_blank" rel="noopener">platonic space</a>: a structured space of
           mathematical patterns that assert themselves in physical systems regardless of
           substrate. His paradigm example is the logistic map:</p>
 
@@ -311,13 +312,13 @@
 
           <p>The <em>Feigenbaum constant</em> ($\delta \approx 4.6692\ldots$) describes the
           limiting ratio between successive bifurcation intervals in this map. It appears
-          in every smooth single-humped map — regardless of physical details, evolutionary
-          history, or substrate. That's what Levin means by platonic causation: a
-          mathematical structure that asserts itself on whatever system will instantiate it.</p>
+          in every smooth single-humped map, regardless of the physical details or
+          evolutionary history of the system. That's what Levin means by platonic causation:
+          a mathematical structure that will assert itself on whatever happens to instantiate it.</p>
 
           <p>This simulation runs that same equation on 25,600 cells simultaneously.
           I built it to make the transition from local chaos to collective order
-          <em>visible</em> and <em>interactive</em> — something you can feel rather
+          <em>visible</em> and <em>interactive</em>. Something you can feel rather
           than just read about.</p>
         </div>
 
@@ -326,23 +327,22 @@
           <p>The grid is 160 × 160 cells, each holding a value $x \in [0,\,1]$.
           At every timestep, the simulation runs two passes:</p>
 
-          <p><strong>Pass 1 — logistic step.</strong> Every cell computes its own
+          <p><strong>Pass 1: logistic step.</strong> Every cell computes its own
           post-logistic value:</p>
           <div class="math-block">$$f(x) = r \cdot x \cdot (1 - x)$$</div>
 
-          <p><strong>Pass 2 — coupling step.</strong> Each cell blends its result with
+          <p><strong>Pass 2: coupling step.</strong> Each cell blends its result with
           its neighbours' results:</p>
           <div class="math-block">$$x_{\text{next}} \;=\; (1-\varepsilon)\,f(x) \;+\; \varepsilon\cdot\overline{f(\text{neighbours})}$$</div>
 
           <p>The order matters. Neighbours are aggregated on <em>post-logistic</em>
-          values $f(x)$, not on raw $x$. This two-pass structure is what allows the
-          coupling to act on comparable quantities and is what produces the rich spatial
-          patterns — changing the order would give a fundamentally different (and less
-          interesting) system.</p>
+          values $f(x)$, not on raw $x$. Coupling on post-logistic values is what
+          keeps the simulation in parity with the theoretical model. Swap the order and
+          you get a fundamentally different, and frankly less interesting, system.</p>
 
           <p>Cell values are coloured by the Inferno colourmap: $x \approx 0$ is deep
           purple, $x \approx 1$ is bright yellow. <strong>Synchrony</strong> tracks how
-          similar all cells are globally (high = one colour dominates);
+          similar all cells are globally (high = one colour dominates).
           <strong>Neighbour Δ</strong> tracks the mean absolute difference between
           adjacent cells (high = sharp domain boundaries visible).</p>
         </div>
@@ -375,7 +375,7 @@
 
   <!-- ── Footer ────────────────────────────────────────────────────────── -->
   <footer class="site-footer">
-    <p>Partly inspired by <a href="https://thoughtforms.life/platonic-space-where-cognitive-and-morphological-patterns-come-from-besides-genetics-and-environment/" target="_blank" rel="noopener">Michael Levin's idea of platonic space</a> — looking for agency in simple systems.</p>
+    <p>Inspired by Michael Levin's question: <a href="https://thoughtforms.life/platonic-space-where-cognitive-and-morphological-patterns-come-from-besides-genetics-and-environment/" target="_blank" rel="noopener">where does collective order come from?</a></p>
   </footer>
 
   <script type="module" src="./js/main.js"></script>
