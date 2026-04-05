@@ -64,7 +64,7 @@ export const CHAPTERS = [
       <p>Set the growth rate low enough (here <em>r = 2.8</em>) and the whole field
       converges to a single value: the <strong>fixed point</strong> <code>x* = 1 − 1/r ≈ 0.64</code>.</p>
       <p>No matter what the starting state, every cell finds its way there.
-      Watch the grid settle into a single flat colour. Synchrony will climb toward 1.</p>
+      Watch the grid settle into a single flat color. Synchrony will climb toward 1.</p>
       <p class="aside">The logistic map has only one stable attractor here. The coupled grid
       inherits this: 25,600 agents independently converging to the same answer.</p>
     `,
@@ -99,8 +99,8 @@ export const CHAPTERS = [
       <p>25,600 chaotic agents, each following identical rules, producing uncorrelated noise.
       Low synchrony, high disagreement.</p>
       <p class="aside">Michael Levin asks: how does a collection of locally-dumb cells
-      produce globally-coherent behaviour in development, regeneration, and cognition?
-      This is the baseline. <em>No</em> collective behaviour yet.</p>
+      produce globally-coherent behavior in development, regeneration, and cognition?
+      This is the baseline. <em>No</em> collective behavior yet.</p>
     `,
   },
   {
@@ -111,9 +111,9 @@ export const CHAPTERS = [
     autoTool: null,
     narrative: `
       <p>Nudge coupling up slightly to <em>ε = 0.08</em> and something unexpected
-      crystallises: the noise <strong>organises itself into a maze</strong>.
+      crystallizes: the noise <strong>organizes itself into a maze</strong>.
       Winding corridors of agreement trace through a turbulent background.</p>
-      <p>Each cell is still chaotic on its own. But now it weakly feels its neighbours,
+      <p>Each cell is still chaotic on its own. But now it weakly feels its neighbors,
       creating short-range spatial correlation. Nearby cells tend to fall into similar
       phases; far-apart cells remain independent. The corridor walls are sharp because
       chaos amplifies any difference not averaged out by the coupling.</p>
@@ -135,8 +135,8 @@ export const CHAPTERS = [
       { delay: 4400, type: 'param', key: 'r', value: 3.76 },
     ],
     narrative: `
-      <p>Watch the sequence: the grid first converges to a single flat colour, then
-      <em>r</em> rises to period-2, then a small random patch drops in the centre, then
+      <p>Watch the sequence: the grid first converges to a single flat color, then
+      <em>r</em> rises to period-2, then a small random patch drops in the center, then
       <em>r</em> jumps to chaos. Concentric rings start radiating outward from that spot.</p>
       <p>The trick is the uniform background. When all cells converge and then start
       oscillating together, they are perfectly in phase: every cell does exactly the same
@@ -147,7 +147,7 @@ export const CHAPTERS = [
       result is a repeating wave source in a quiet, uniform medium.</p>
       <p>To see two ring systems interact: click this chapter again to restart the
       sequence, then during the brief window after the lesion appears use <em>Lesion rand</em>
-      to drop a second patch somewhere off-centre. Each patch seeds its own rings. When they
+      to drop a second patch somewhere off-center. Each patch seeds its own rings. When they
       meet they don't pass through — they block and merge, the outer rings continuing as if
       from a single combined source.</p>
       <p class="aside">The same mechanism drives the Belousov-Zhabotinsky reaction and
@@ -167,9 +167,10 @@ export const CHAPTERS = [
       <p>No cell was instructed to join a wave. No central coordinator exists.
       The pattern lives in the <em>coupling</em>, a collective state that no single cell
       "knows" about, yet every cell participates in.</p>
-      <p class="aside">Levin calls these "platonic attractors": they exist in an
-      abstract space of possible configurations, and the system navigates toward them
-      through local interactions alone. This is what agency without a self looks like.</p>
+      <p class="aside">These are something like what Levin calls "platonic attractors":
+      configurations that exist in an abstract space of possibilities, and that the system
+      navigates toward through local interactions alone — no coordinator, no blueprint.
+      Something akin to agency without a self.</p>
     `,
   },
   {
@@ -183,15 +184,15 @@ export const CHAPTERS = [
       dragging it from 1 up to 3 or 4 while the simulation runs.</p>
       <p>At radius 1, you'll see spatial domains: islands of one phase sitting in a sea
       of another, with relatively stable boundaries. As you increase the radius, small
-      islands start to shrink. They're being outvoted by a wider neighbourhood. Push far
+      islands start to shrink. They're being outvoted by a wider neighborhood. Push far
       enough and they collapse entirely into the surrounding sea.</p>
       <p>At large radius the surviving structures are coarser and fewer. The fine-grained
       complexity that was possible at radius 1 simply can't be maintained when every cell
       sees so far that local minority pockets get averaged away.</p>
-      <p class="aside">This is what Michael Levin calls the <em>cognitive light cone</em>:
+      <p class="aside">This is something like what Michael Levin calls the <em>cognitive light cone</em>:
       the spatial boundary of what an agent can sense and be pulled by. A wider cone isn't
-      just "more information". It changes which collective states are even possible. The
-      scale of sensing is inseparable from the scale of the resulting cognition.</p>
+      just "more information" — it changes which collective states are even possible. The
+      scale of sensing seems inseparable from the scale of the resulting cognition.</p>
     `,
   },
   {
@@ -202,7 +203,7 @@ export const CHAPTERS = [
     autoTool: { tool: 'lesion_random', shape: 'square', cx: 80, cy: 80, size: 24 },
     narrative: `
       <p>A large region of the grid has been randomly reset, a wound.
-      Watch whether the surrounding wave structure <strong>reorganises to fill the void</strong>,
+      Watch whether the surrounding wave structure <strong>reorganizes to fill the void</strong>,
       or whether it is permanently disrupted.</p>
       <p>Try lesioning again. Try a smaller or larger brush. Does the system recover
       faster from smaller damage? Is there a threshold beyond which it cannot?</p>
@@ -228,7 +229,7 @@ export const CHAPTERS = [
       reset). With sync, if all cells converge to the same value, they all receive the same
       r-jump and evolve identically thereafter. The grid just blinks in unison. No structure.</p>
       <p>Async breaks that symmetry. Because cells update one at a time in random order,
-      a cell that updates early in a step is already at a new value when its neighbour
+      a cell that updates early in a step is already at a new value when its neighbor
       updates later in the same step. Over time this accumulates: even an apparently
       converged grid has tiny phase differences baked in by the random scheduling. Jump r
       into chaos and those small differences get amplified into the visible patterns you see.</p>
@@ -252,7 +253,7 @@ export const CHAPTERS = [
       flow like a scar in tissue, or a persistent boundary condition in a physical system.</p>
       <p class="aside">Fixing part of a coupled system's state is equivalent to imposing
       a boundary condition mid-field. The unfrozen cells must satisfy both the local
-      update rule and the constraint from their frozen neighbours. That competition
+      update rule and the constraint from their frozen neighbors. That competition
       reshapes every downstream pattern.</p>
     `,
   },

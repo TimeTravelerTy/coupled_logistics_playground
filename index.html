@@ -74,7 +74,7 @@
       <div class="metrics-wrap">
         <div class="metrics-labels">
           <span class="ml-sync">Synchrony</span>
-          <span class="ml-disagree">Neighbour Δ</span>
+          <span class="ml-disagree">Neighbor Δ</span>
         </div>
         <canvas id="metrics-canvas" width="320" height="80"></canvas>
       </div>
@@ -110,9 +110,9 @@
           </div>
         </fieldset>
 
-        <!-- Neighbourhood -->
+        <!-- Neighborhood -->
         <fieldset class="field-group">
-          <legend>Neighbourhood</legend>
+          <legend>Neighborhood</legend>
 
           <div class="select-row">
             <label for="sel-topology">Topology</label>
@@ -136,7 +136,7 @@
 
           <div class="select-row">
             <label for="sel-boundary">Boundary</label>
-            <select id="sel-boundary" title="Periodic: edges wrap around. Fixed: border cells are clamped to 0. Reflecting: border cells mirror their inner neighbour.">
+            <select id="sel-boundary" title="Periodic: edges wrap around. Fixed: border cells are clamped to 0. Reflecting: border cells mirror their inner neighbor.">
               <option value="periodic"  selected>Periodic (wrap)</option>
               <option value="fixed">Fixed (zero)</option>
               <option value="reflecting">Reflecting</option>
@@ -145,7 +145,7 @@
 
           <div class="select-row">
             <label for="sel-aggregate">Coupling fn</label>
-            <select id="sel-aggregate" title="How neighbours are aggregated before blending. Mean is the standard; median is more robust to outliers; max/min pull cells toward the extreme neighbour.">
+            <select id="sel-aggregate" title="How neighbors are aggregated before blending. Mean is the standard; median is more robust to outliers; max/min pull cells toward the extreme neighbor.">
               <option value="mean"   selected>Mean</option>
               <option value="median">Median</option>
               <option value="max">Max</option>
@@ -241,7 +241,7 @@
 
         <!-- Colormap -->
         <fieldset class="field-group">
-          <legend>Colour Map</legend>
+          <legend>Color Map</legend>
           <div class="select-row">
             <label for="sel-colormap">Scheme</label>
             <select id="sel-colormap">
@@ -250,7 +250,7 @@
               <option value="magma">Magma</option>
               <option value="plasma">Plasma</option>
               <option value="turbo">Turbo</option>
-              <option value="grayscale">Greyscale</option>
+              <option value="grayscale">Grayscale</option>
               <option value="custom">Custom…</option>
             </select>
           </div>
@@ -300,8 +300,8 @@
           <h3>The question</h3>
           <p>I kept returning to a question from Michael Levin's work on collective
           intelligence in biology: <em>how does a collection of locally-simple agents
-          produce globally-coherent behaviour?</em> Not by design. Not by instruction.
-          Just by being coupled together.</p>
+          produce globally-coherent behavior?</em> All this without genetic blueprints
+          or top-down instruction, just from being coupled together.</p>
 
           <p>Levin frames this using the idea of <a href="https://thoughtforms.life/platonic-space-where-cognitive-and-morphological-patterns-come-from-besides-genetics-and-environment/"
           target="_blank" rel="noopener">platonic space</a>: a structured space of
@@ -313,8 +313,8 @@
           <p>The <em>Feigenbaum constant</em> ($\delta \approx 4.6692\ldots$) describes the
           limiting ratio between successive bifurcation intervals in this map. It appears
           in every smooth single-humped map, regardless of the physical details or
-          evolutionary history of the system. That's what Levin means by platonic causation:
-          a mathematical structure that will assert itself on whatever happens to instantiate it.</p>
+          evolutionary history of the system. Something like what Levin means by platonic causation:
+          a mathematical structure that asserts itself on whatever happens to instantiate it.</p>
 
           <p>This simulation runs that same equation on 25,600 cells simultaneously.
           I built it to make the transition from local chaos to collective order
@@ -332,18 +332,18 @@
           <div class="math-block">$$f(x) = r \cdot x \cdot (1 - x)$$</div>
 
           <p><strong>Pass 2: coupling step.</strong> Each cell blends its result with
-          its neighbours' results:</p>
-          <div class="math-block">$$x_{\text{next}} \;=\; (1-\varepsilon)\,f(x) \;+\; \varepsilon\cdot\overline{f(\text{neighbours})}$$</div>
+          its neighbors' results:</p>
+          <div class="math-block">$$x_{\text{next}} \;=\; (1-\varepsilon)\,f(x) \;+\; \varepsilon\cdot\overline{f(\text{neighbors})}$$</div>
 
-          <p>The order matters. Neighbours are aggregated on <em>post-logistic</em>
+          <p>The order matters. Neighbors are aggregated on <em>post-logistic</em>
           values $f(x)$, not on raw $x$. Coupling on post-logistic values is what
           keeps the simulation in parity with the theoretical model. Swap the order and
           you get a fundamentally different, and frankly less interesting, system.</p>
 
-          <p>Cell values are coloured by the Inferno colourmap: $x \approx 0$ is deep
+          <p>Cell values are colored by the Inferno colormap (customizable in the Display panel): $x \approx 0$ is deep
           purple, $x \approx 1$ is bright yellow. <strong>Synchrony</strong> tracks how
-          similar all cells are globally (high = one colour dominates).
-          <strong>Neighbour Δ</strong> tracks the mean absolute difference between
+          similar all cells are globally (high = one color dominates).
+          <strong>Neighbor Δ</strong> tracks the mean absolute difference between
           adjacent cells (high = sharp domain boundaries visible).</p>
         </div>
 
