@@ -2,7 +2,7 @@
 
 **25,600 chaotic agents. One rule. Endless structure.**
 
-A browser-based interactive simulation of a [coupled logistic map](https://en.wikipedia.org/wiki/Logistic_map) on a 160×160 grid. Pure vanilla JS, a Web Worker, and a canvas — nothing else.
+A browser-based interactive simulation of a [coupled logistic map](https://en.wikipedia.org/wiki/Logistic_map) on a 160×160 grid. Pure vanilla JS, a Web Worker, and a canvas.
 
 [**→ Live demo**](https://logisticplatonic.space)
 
@@ -20,7 +20,7 @@ Cells are then **coupled** to their neighbors: each step blends its own next val
 
 $$x_{t+1} = (1 - \varepsilon)\, f(x_t) \;+\; \varepsilon \cdot \text{mean}\bigl(f(x_{\text{neighbors}})\bigr)$$
 
-Individually, each cell is chaotic. Collectively, they form **spatial domains, synchrony, target waves, and frozen memory** — structure that no single cell planned or knows about.
+Individually, each cell is chaotic. Collectively, they form **spatial domains, synchrony, target waves, and frozen memory**. That is structure that no single cell planned or knows about.
 
 
 This is the question the simulation is built to make visceral: *where does order come from?*
@@ -31,9 +31,7 @@ This is the question the simulation is built to make visceral: *where does order
 
 | Labyrinthine domains | Target waves |
 |:---:|:---:|
-| <img width="414" height="412" alt="Screenshot 2026-04-05 at 11 57 40" src="https://github.com/user-attachments/assets/ea533b5a-8e1f-48e7-a93b-bdbc2efb6347" />
- | <img width="568" height="563" alt="Screenshot 2026-04-01 at 19 08 26" src="https://github.com/user-attachments/assets/774a59f4-18fa-4bda-ad78-f1fa1b378a8a" />
- |
+| <img width="414" height="412" alt="Screenshot 2026-04-05 at 11 57 40" src="https://github.com/user-attachments/assets/ea533b5a-8e1f-48e7-a93b-bdbc2efb6347" /> | <img width="568" height="563" alt="Screenshot 2026-04-01 at 19 08 26" src="https://github.com/user-attachments/assets/774a59f4-18fa-4bda-ad78-f1fa1b378a8a" /> |
 
 Both emerge from the same rule. Only `r` and `ε` differ.
 
@@ -45,14 +43,14 @@ Ten chapters walk you from the simplest behavior to the strange:
 
 | # | Chapter | What you see |
 |---|---------|-------------|
-| 1 | **The Fixed Point** | All cells converge to the same value — silence |
+| 1 | **The Fixed Point** | All cells converge to the same value |
 | 2 | **Period Doubling** | The system oscillates between two values, forever |
 | 3 | **Coupled Chaos** | Individual chaos, collective coherence |
 | 4 | **Spatial Domains** | Regions lock into phase, borders emerge |
 | 5 | **Target Waves** | Expanding rings of synchrony, self-organized |
 | 6 | **Emergent Synchrony** | The whole grid breathes as one |
 | 7 | **Cognitive Light Cone** | How far does influence reach? |
-| 8 | **Damage and Recovery** | Lesion the grid — watch it heal |
+| 8 | **Damage and Recovery** | Lesion the grid and watch it heal |
 | 9 | **Asynchronous Update** | Break the global clock, order persists |
 | 10 | **Frozen Memory** | A stripe is frozen; the field routes around it |
 
@@ -98,13 +96,13 @@ Ten chapters walk you from the simplest behavior to the strange:
 
 ## Inspiration
 
-Directly inspired by Michael Levin's concept of [platonic space](https://thoughtforms.life/platonic-space-where-cognitive-and-morphological-patterns-come-from-besides-genetics-and-environment/): the idea that simple local rules give rise to collective agency, goal-directedness, and resilience that no individual component possesses. The coupled logistic map is a minimal toy model for asking that question mathematically.
+Directly inspired by Michael Levin's concept of [platonic space](https://thoughtforms.life/platonic-space-where-cognitive-and-morphological-patterns-come-from-besides-genetics-and-environment/): the idea that simple local rules give rise to collective agency, goal-directedness, and resilience that no individual component possesses. The coupled logistic map is a minimal toy model for visualizing and interacting with that question.
 
 ---
 
 ## Running locally
 
-ES modules + Web Workers require HTTP — opening `index.html` directly won't work:
+ES modules + Web Workers require HTTP, opening `index.html` directly won't work:
 
 ```bash
 python3 -m http.server 8080
@@ -131,6 +129,10 @@ sim.py              # Python original (reference implementation)
 ```
 
 ---
+
+## Feedback
+
+If you play with the simulation and find an especially beautiful, strange, or revealing pattern, I'd love to hear about it. Feedback, bug reports, and unexpected discoveries are all very welcome.
 
 ## License
 
