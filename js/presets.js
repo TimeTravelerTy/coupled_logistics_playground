@@ -162,15 +162,19 @@ export const CHAPTERS = [
               aggregate: 'mean', updateOrder: 'sync', reset: true, initMode: 'random' },
     autoTool: null,
     narrative: `
-      <p>Turn coupling up to <em>ε = 0.30</em>. Watch what happens: despite local chaos,
-      <strong>travelling waves and spiral patterns</strong> emerge from nothing.</p>
-      <p>No cell was instructed to join a wave. No central coordinator exists.
-      The pattern lives in the <em>coupling</em>, a collective state that no single cell
-      "knows" about, yet every cell participates in.</p>
-      <p class="aside">These are something like what Levin calls "platonic attractors":
-      configurations that exist in an abstract space of possibilities, and that the system
-      navigates toward through local interactions alone — no coordinator, no blueprint.
-      Something akin to agency without a self.</p>
+      <p>With <em>r = 3.8</em> (deep chaos) and <em>ε = 0.30</em> (strong coupling), the grid
+      organizes into rough patches whose outlines hold while everything inside keeps churning.
+      Every cell is still fully chaotic (the bubbling is real), but within a patch, cells are
+      chaotic <em>together</em>. They go high when their neighbors go high, low when their
+      neighbors go low. Shared trajectory, not shared value.</p>
+      <p>The patch borders persist because the phase gap between two clusters is large enough
+      that coupling can't easily bridge it. A border cell is being pulled by two groups on
+      different schedules; most of the time neither wins decisively, so the boundary just
+      holds. The patches aren't still. They're restless but stable.</p>
+      <p class="aside">This is phase-synchronized chaos: collective structure that exists
+      entirely in the <em>timing</em> of individual chaos, not in its suppression. Each cell
+      is as free as it ever was. What changed is only the correlation between neighbors,
+      and that turns out to be enough to carve the grid into persistent regions.</p>
     `,
   },
   {
