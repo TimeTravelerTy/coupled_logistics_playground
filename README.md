@@ -31,11 +31,12 @@ This is the question the simulation is built to make visceral: *where does order
 
 ## Gallery
 
-| Labyrinthine domains | Target waves |
-|:---:|:---:|
-| <img width="411" height="414" alt="Screenshot 2026-04-05 at 15 13 02" src="https://github.com/user-attachments/assets/7e77a131-c8b1-46b6-9071-9ecbf80a47e3" /> | <img width="568" height="563" alt="Screenshot 2026-04-01 at 19 08 26" src="https://github.com/user-attachments/assets/774a59f4-18fa-4bda-ad78-f1fa1b378a8a" /> |
+| Labyrinthine domains | Target waves | Ornate symmetrical pattern
+|:---:|:---:|:---:|
+| <img width="411" height="414" alt="Screenshot 2026-04-05 at 15 13 02" src="https://github.com/user-attachments/assets/7e77a131-c8b1-46b6-9071-9ecbf80a47e3" /> | <img width="568" height="563" alt="Screenshot 2026-04-01 at 19 08 26" src="https://github.com/user-attachments/assets/774a59f4-18fa-4bda-ad78-f1fa1b378a8a" /> | <img width="424" height="421" alt="Screenshot 2026-04-05 at 18 31 56" src="https://github.com/user-attachments/assets/653a3416-b578-488f-a193-1c08675b3eb4" /> |
 
-Both emerge from the same rule. Only `r` and `ε` differ.
+
+All emerge from the same rule. Only `r`, `ε` and their variation over steps differ. (In the case of the ornate pattern, it was created by consistently decreasing and increasing `r` multiple times, starting from a heterogeneous map)
 
 ---
 
